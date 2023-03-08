@@ -1,0 +1,79 @@
+{% include "Inc/header.html" %}
+
+  {% for u in usuarios%}
+
+   
+<div class="ui container"><br>
+    <h1 style="text-align: center;">Actualizar Datos Usuario</h1><br><br>
+
+    <form action="" method="POST" class="ui form">
+
+        {% csrf_token %}
+        <div class="four fields">
+
+            <div class="field">
+                <label for="">Nombre</label>
+                <input type="text" name="nombre" value="{{ u.Nombre  }}" placeholder="Ingrese un nombre" required>
+            </div>
+
+            <div class="field">
+                <label for="">Apellido</label>
+                <input type="text" name="apellido" value="{{ u.Apellido }}" placeholder="Ingrese un apellido" required>
+            </div>
+
+            <div class="field">
+                <label for="">Direccion</label>
+                <input type="text" name="direccion" value="{{ u.Direccion }}" placeholder="Ingrese una direccion" required>
+            </div>
+
+            <div class="field">
+                <label for="">Edad</label>
+                <input type="number" name="edad" value="{{ u.Edad }}" placeholder="Ingrese una edad" required>
+            </div>
+
+        </div>
+
+
+
+        <div class="two fields">
+
+            <div class="field">
+                <label for="">Telefono</label>
+                <input type="number" name="telefono" value="{{ u.Telefono }}" placeholder="Ingrese un telefono" required>
+            </div>
+
+            <div class="field">
+                <label for="">Cedula</label>
+                <input type="number" name="cedula" value="{{ u.Cedula }}" placeholder="Ingrese la cedula" required>
+            </div>
+
+        
+
+        </div>
+
+        <div class="two fields">
+
+
+            <div class="field">
+                <label for="">Correo</label>
+                <input type="text" name="correo" value="{{ u.Correo }}" placeholder="Ingrese un correo" required>
+            </div>
+
+            <div class="field">
+                <label for="">Profesion</label>
+                <input type="text" name="profesion" value="{{ u.Profesion }}" placeholder="Ingrese una profesion" required>
+            </div>
+
+        </div>
+
+        <br>
+        <div style="text-align: center;">
+          <button class="ui green button">Guardar Empleado</button>
+        </div>
+
+    </form>
+</div>
+
+  {% endfor %}
+
+{% include "Inc/footer.html" %}
