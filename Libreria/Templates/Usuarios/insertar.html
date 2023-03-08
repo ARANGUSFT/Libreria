@@ -50,7 +50,7 @@
 
         </div>
 
-        <div class="two fields">
+        <div class="three fields">
 
 
             <div class="field">
@@ -63,11 +63,20 @@
                 <input type="text" name="profesion" placeholder="Ingrese una profesion" required>
             </div>
 
+            <div class="field">
+             <label for="">Selecciona un Libro</label>
+                <select name="libro_id" id="">
+                 {% for l in libros %}
+                   <option value="{{ l.id }}">{{ l.NombreLibro }}</option>
+                 {% endfor %}
+                </select>
+            </div>
+
         </div>
 
         <br>
         <div style="text-align: center;">
-          <button class="ui green button">Guardar Empleado</button>
+          <button class="ui green button">Guardar</button>
         </div>
 
     </form>

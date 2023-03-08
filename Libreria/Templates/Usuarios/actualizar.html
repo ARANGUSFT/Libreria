@@ -51,7 +51,7 @@
 
         </div>
 
-        <div class="two fields">
+        <div class="three fields">
 
 
             <div class="field">
@@ -64,6 +64,16 @@
                 <input type="text" name="profesion" value="{{ u.Profesion }}" placeholder="Ingrese una profesion" required>
             </div>
 
+            <div class="field">
+                <label for="">Selecciona un Libro</label>
+                   <select name="libro_id" id="">
+                    {% for l in libros %}
+                      <option value="{{ l.id }}">{{ l.NombreLibro }}</option>
+                    {% endfor %}
+                   </select>
+               </div>
+   
+
         </div>
 
         <br>
@@ -72,8 +82,9 @@
         </div>
 
     </form>
+    {% endfor %}
 </div>
 
-  {% endfor %}
+ 
 
 {% include "Inc/footer.html" %}

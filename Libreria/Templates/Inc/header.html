@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'Css/semantic.css' %}">
+    <link rel="stylesheet" href="{% static 'Css/Login.css' %}">
     <script src="{% static 'Js/jquery-3.1.1.min.js'%}"></script>
     <script src="{% static 'Js/semantic.js' %}"></script>
     <title>Document</title>
@@ -23,6 +24,7 @@
                 <a href="/Usuarios/listado" class="item">Listado Usuarios</a>
                 <a href="/Usuarios/insertar" class="item">Registrar un Usuario</a>
             </div>
+            
         </div>
 
 
@@ -34,6 +36,21 @@
                 <a href="/Libros/insertar" class="item">Registrar un Libro</a>
             </div>
         </div>
-        <a href="/Usuario/logout" class="item right">Cerrar sesion</a>
+
+        <div class="item right">
+        <div class="ui dropdown item">
+            Configuracion<i class="dropdown icon"></i>
+            <div class="menu">
+                <a href="#" class="item">Editar perfil</a>
+                <a href="#" class="item">Cerrar sesion</a>
+            </div>
+        </div>
+        </div>
+
+
+
+   
+        
+        
     </div>
     

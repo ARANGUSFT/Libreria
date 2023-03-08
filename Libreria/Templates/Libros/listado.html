@@ -1,0 +1,36 @@
+{% include "Inc/header.html" %}
+{% load static %}
+
+<br>
+<h1>Listado de Libros</h1>
+<table class="ui green table">
+
+  <thead>
+    <tr>
+      <th>Nombre del libro</th>
+      <th>Categoria</th>
+      <th>Paginas</th>
+      <th>Ilustrador</th>
+      <th>Autor</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+    
+  <tbody>{% for l in libros %}
+      <tr>
+        <td>{{ l.NombreLibro }}</td>
+        <td>{{ l.Categoria }}</td>
+        <td>{{ l.Paginas }}</td>
+        <td>{{ l.Ilustrador }}</td>
+        <td>{{ l.Autor }}</td>
+        <td>
+            <a href="/Libros/actualizar/{{ l.id }}"><i class="edit icon"></i></a>  
+            <a href="/Libros/borrar/{{ l.id }}"><i class="trash icon"></i></a>
+        </td>
+      </tr>
+  </tbody>
+  {% endfor %}
+</table>
+
+
+{% include "Inc/footer.html" %}

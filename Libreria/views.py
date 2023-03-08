@@ -1,9 +1,9 @@
 from django.http import HttpResponse
 from django.template import Template, Context
 from django.shortcuts import render,redirect
-from Libreria.models import Usuarios
-# from django.contrib.auth.models import User
-# from django.contrib.auth import authenticate,login,logout
+from Libreria.models import Usuarios,Libros
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate,login,logout
 
 
 #region Usuarios
@@ -21,7 +21,7 @@ def ListadoUsuarios(request):
 
 def InsertarUsuarios(request):
     if request.method == "POST":
-     if request.POST.get('nombre') and request.POST.get('apellido') and request.POST.get('direccion') and request.POST.get('edad') and request.POST.get('telefono') and request.POST.get('cedula') and request.POST.get('correo') and request.POST.get('profesion'):
+     if request.POST.get('nombre') and request.POST.get('apellido') and request.POST.get('direccion') and request.POST.get('edad') and request.POST.get('telefono') and request.POST.get('cedula') and request.POST.get('correo') and request.POST.get('profesion') and request.POST.get('libro_id'):
 
         usuarios = Usuarios()
         usuarios.Nombre = request.POST.get('nombre')
@@ -32,6 +32,7 @@ def InsertarUsuarios(request):
         usuarios.Cedula = request.POST.get('cedula')
         usuarios.Correo = request.POST.get('correo')
         usuarios.Profesion = request.POST.get('profesion')
+        usuarios.libros = request.POST.get('libro_id')
         usuarios.save()
 
         return redirect('/Usuarios/listado')
@@ -43,7 +44,7 @@ def InsertarUsuarios(request):
 
 def ActualizarUsuarios(request,idusuarios):
     if request.method == "POST":
-     if request.POST.get('nombre') and request.POST.get('apellido') and request.POST.get('direccion') and request.POST.get('edad') and request.POST.get('telefono') and request.POST.get('cedula') and request.POST.get('correo') and request.POST.get('profesion'):
+     if request.POST.get('nombre') and request.POST.get('apellido') and request.POST.get('direccion') and request.POST.get('edad') and request.POST.get('telefono') and request.POST.get('cedula') and request.POST.get('correo') and request.POST.get('profesion') and request.POST.get('libro_id'):
 
         usuarios = Usuarios.objects.get(id=idusuarios)
         usuarios.Nombre = request.POST.get('nombre')
@@ -54,6 +55,7 @@ def ActualizarUsuarios(request,idusuarios):
         usuarios.Cedula = request.POST.get('cedula')
         usuarios.Correo = request.POST.get('correo')
         usuarios.Profesion = request.POST.get('profesion')
+        usuarios.libros = request.POST.get('libro_id')
         usuarios.save()
 
         return redirect('/Usuarios/listado')
@@ -73,32 +75,103 @@ def BorrarUsuarios(request,idusuarios):
 #endregion
 
 
+
+
 #region Libros
 
-# def ListadoLibros(request):
+def ListadoLibros(request):
 
-#     paginalistado = open('Libreria/Templates/Libros/listado.html')
-#     lectura = Template(paginalistado.read())
-#     paginalistado.close()
-#     libros = Libros.objects.all()
-#     parametros = Context({'libros':libros})
-#     paginafinal = lectura.render(parametros)
-#     return HttpResponse(paginafinal)
+    paginalistado = open('Libreria/Templates/Libros/listado.html')
+    lectura = Template(paginalistado.read())
+    paginalistado.close()
+    libros = Libros.objects.all()
+    parametros = Context({'libros':libros})
+    paginafinal = lectura.render(parametros)
+    return HttpResponse(paginafinal)
 
-# def InsertarLibros(request):
+
+
+def InsertarLibros(request):
+    if request.method == "POST":
+     if request.POST.get('nombrelibro') and request.POST.get('categoria') and request.POST.get('paginas') and request.POST.get('ilustrador') and request.POST.get('autor'):
+
+        libros = Libros()
+        libros.NombreLibro = request.POST.get('nombrelibro')
+        libros.Categoria = request.POST.get('categoria')
+        libros.Paginas = request.POST.get('paginas')
+        libros.Ilustrador = request.POST.get('ilustrador')
+        libros.Autor = request.POST.get('autor')
+        libros.save()
+
+        return redirect('/Libros/listado')
+    else:
+        return render(request,'Libros/insertar.html')
     
 
 
-# def ActualizarLibros(request):
+
+def ActualizarLibros(request,idlibros):
+    if request.method == "POST":
+     if request.POST.get('nombrelibro') and request.POST.get('categoria') and request.POST.get('paginas') and request.POST.get('ilustrador') and request.POST.get('autor'):
+
+        libros = Libros.objects.get(id=idlibros)
+        libros.NombreLibro = request.POST.get('nombrelibro')
+        libros.Categoria = request.POST.get('categoria')
+        libros.Paginas = request.POST.get('paginas')
+        libros.Ilustrador = request.POST.get('ilustrador')
+        libros.Autor = request.POST.get('autor')
+        libros.save()
+
+        return redirect('/Libros/listado')
+    else:
+        libros = Libros.objects.filter(id=idlibros)
+        return render(request,'Libros/actualizar.html',{'libros':libros})
 
 
 
-# def BorrarLibros(request):
-
+def BorrarLibros(request,idlibros):
+    libros = Libros.objects.get(id=idlibros)
+    libros.delete()
+    return redirect('/Libros/listado')
 
 #endregion
 
 
+
+
 #region Login
+
+def Registro(request):
+    if request.method == "POST":
+     if request.POST.get('username') and request.POST.get('email') and request.POST.get('password'):
+
+        registro = User.objects.create_user(username=request.POST.get('username'),password=request.POST.get('email'),first_name=request.POST.get('password'))
+        registro.save()
+
+        return redirect('/Login/login')
+    else:
+        return render(request,'Login/registro.html')
+
+
+def Login(request):
+    if request.method == "POST":
+        if request.POST.get('username') and request.POST.get('password'):
+           user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
+
+        if user is not None:
+             login(request,user)
+             return redirect('/Libros/listado')
+        else:
+            mensaje = "Usuario o contraseña estan mal"
+            return render(request,'Login/login.html',{'mensaje':mensaje})
+    
+    else:
+        return render(request,'Login/login.html')
+
+
+
+def Logout(request):
+    logout(request)
+    return redirect('/Login/login')
 
 #endregion

@@ -1,0 +1,18 @@
+{% include "Inc/header.html" %}
+
+
+<div class="login">
+	<h1>Login</h1>
+
+    <form method="POST">
+      {% csrf_token %}
+    	<input type="text" name="username" placeholder="Apodo" required="required">
+        <input type="password" name="password" placeholder="Contraseña" required="required">
+        <button type="submit" class="btn btn-primary btn-block btn-large">Entrar</button>
+    </form>
+    
+</div>
+
+
+
+{% include "Inc/footer.html" %}

@@ -1,0 +1,60 @@
+{% include "Inc/header.html" %}
+
+
+ 
+<div class="ui container"><br>
+    <h1 style="text-align: center;">Registro de Libros</h1><br><br>
+
+    <form action="" method="POST" class="ui form">
+
+        {% csrf_token %}
+        <div class="three fields">
+
+            <div class="field">
+                <label for="">NombreLibro</label>
+                <input type="text" name="nombrelibro" placeholder="Ingrese el nombre del libro" required>
+            </div>
+
+            <div class="field">
+                <label for="">Categoria</label>
+                <input type="text" name="categoria" placeholder="Ingrese la categoria" required>
+            </div>
+
+            <div class="field">
+                <label for="">Total de paginas</label>
+                <input type="text" name="paginas" placeholder="Ingrese el total de paginas" required>
+            </div>
+
+
+        </div>
+
+
+
+        <div class="two fields">
+
+            <div class="field">
+                <label for="">Autor</label>
+                <input type="text" name="autor" placeholder="Ingrese un autor" required>
+            </div>
+
+            <div class="field">
+                <label for="">Ilustrador</label>
+                <input type="text" name="ilustrador" placeholder="Ingrese un ilustrador" required>
+            </div>
+
+        </div>
+
+        
+        
+        <br>
+        <div style="text-align: center;">
+          <button class="ui green button">Guardar</button>
+        </div>
+
+    </form>
+</div>
+
+
+
+
+{% include "Inc/footer.html" %}

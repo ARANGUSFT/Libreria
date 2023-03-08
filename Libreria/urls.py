@@ -19,23 +19,32 @@ from django.urls import path
 #Usuarios
 from Libreria.views import ListadoUsuarios,InsertarUsuarios,ActualizarUsuarios,BorrarUsuarios
 
-#Libros
-# from Libreria.views import ListadoLibros
+# Libros
+from Libreria.views import ListadoLibros,InsertarLibros,ActualizarLibros,BorrarLibros
 
 #Login
+from Libreria.views import Registro,Login
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     
     #Usuarios
-    path("Usuarios/listado",ListadoUsuarios),
-    path("Usuarios/insertar",InsertarUsuarios),
-    path("Usuarios/actualizar",ActualizarUsuarios),
-    path("Usuarios/borrar/<int:idusuarios>",BorrarUsuarios)
+    path("Usuarios/listado", ListadoUsuarios),
+    path("Usuarios/insertar", InsertarUsuarios),
+    path("Usuarios/actualizar/<int:idusuarios>", ActualizarUsuarios),
+    path("Usuarios/borrar/<int:idusuarios>", BorrarUsuarios),
 
     #Libros
-    # path("Libros/listado", ListadoLibros)
+    path("Libros/listado", ListadoLibros),
+    path("Libros/insertar", InsertarLibros),
+    path("Libros/actualizar/<int:idlibros>", ActualizarLibros),
+    path("Libros/borrar/<int:idlibros>", BorrarLibros),
 
     #Login
+    path("Login/login>", Login),
+    path("Login/registro", Registro),
+
+
     
 ]
