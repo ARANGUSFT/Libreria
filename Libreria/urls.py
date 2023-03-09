@@ -18,12 +18,10 @@ from django.urls import path
 
 #Usuarios
 from Libreria.views import ListadoUsuarios,InsertarUsuarios,ActualizarUsuarios,BorrarUsuarios
-
 # Libros
 from Libreria.views import ListadoLibros,InsertarLibros,ActualizarLibros,BorrarLibros
-
 #Login
-from Libreria.views import Registro,Login
+from Libreria.views import Registro,Login,Logout
 
 
 urlpatterns = [
@@ -34,17 +32,14 @@ urlpatterns = [
     path("Usuarios/insertar", InsertarUsuarios),
     path("Usuarios/actualizar/<int:idusuarios>", ActualizarUsuarios),
     path("Usuarios/borrar/<int:idusuarios>", BorrarUsuarios),
-
     #Libros
     path("Libros/listado", ListadoLibros),
     path("Libros/insertar", InsertarLibros),
     path("Libros/actualizar/<int:idlibros>", ActualizarLibros),
     path("Libros/borrar/<int:idlibros>", BorrarLibros),
-
     #Login
     path("Login/login", Login),
     path("Login/registro", Registro),
-
-
-    
+    path("Login/logout", Logout),
+   
 ]

@@ -23,7 +23,8 @@ class Usuarios(models.Model):
     Cedula = models.CharField(max_length=10)
     Correo = models.CharField(max_length=150)
     Profesion = models.CharField(max_length=150)
-    libros = models.ForeignKey(Libros,on_delete=models.PROTECT)
+    Libros = models.ForeignKey(Libros,on_delete=models.PROTECT)
+    
     class Meta:
       db_table = 'usuarios'
 

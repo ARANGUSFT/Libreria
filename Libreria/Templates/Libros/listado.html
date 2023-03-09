@@ -25,12 +25,34 @@
         <td>{{ l.Autor }}</td>
         <td>
             <a href="/Libros/actualizar/{{ l.id }}"><i class="edit icon"></i></a>  
-            <a href="/Libros/borrar/{{ l.id }}"><i class="trash icon"></i></a>
+            <a href="#" onclick="borrar('{{ l.id }}')"><i class="trash icon"></i></a>
         </td>
       </tr>
   </tbody>
   {% endfor %}
 </table>
+
+<script>
+
+ function borrar(id){
+      swal({
+      title: "¿Estas seguro de eliminar?",
+      text: "Una vez eliminado no se puede recuperar",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+         location.href = "/Libros/borrar/" + id;
+
+      } else {
+        swal("Cancelado");
+      }
+    });
+ }
+
+</script>
 
 
 {% include "Inc/footer.html" %}

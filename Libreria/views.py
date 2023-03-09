@@ -35,7 +35,7 @@ def InsertarUsuarios(request):
         usuarios.Cedula = request.POST.get('cedula')
         usuarios.Correo = request.POST.get('correo')
         usuarios.Profesion = request.POST.get('profesion')
-        usuarios.libros = request.POST.get('libro_id')
+        usuarios.Libros = request.POST.get('libro_id')
         usuarios.save()
 
         return redirect('/Usuarios/listado')
@@ -61,7 +61,7 @@ def ActualizarUsuarios(request,idusuarios):
         usuarios.Cedula = request.POST.get('cedula')
         usuarios.Correo = request.POST.get('correo')
         usuarios.Profesion = request.POST.get('profesion')
-        usuarios.libros = request.POST.get('libro_id')
+        usuarios.Libros = request.POST.get('libro_id')
         usuarios.save()
 
         return redirect('/Usuarios/listado')
