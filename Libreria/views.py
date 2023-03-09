@@ -20,6 +20,9 @@ def ListadoUsuarios(request):
 
 
 def InsertarUsuarios(request):
+    if not request.user.is_authenticated:
+        return redirect('/Login/login')
+    
     if request.method == "POST":
      if request.POST.get('nombre') and request.POST.get('apellido') and request.POST.get('direccion') and request.POST.get('edad') and request.POST.get('telefono') and request.POST.get('cedula') and request.POST.get('correo') and request.POST.get('profesion') and request.POST.get('libro_id'):
 
@@ -43,6 +46,9 @@ def InsertarUsuarios(request):
 
 
 def ActualizarUsuarios(request,idusuarios):
+    if not request.user.is_authenticated:
+        return redirect('/Login/login')
+       
     if request.method == "POST":
      if request.POST.get('nombre') and request.POST.get('apellido') and request.POST.get('direccion') and request.POST.get('edad') and request.POST.get('telefono') and request.POST.get('cedula') and request.POST.get('correo') and request.POST.get('profesion') and request.POST.get('libro_id'):
 
@@ -67,6 +73,9 @@ def ActualizarUsuarios(request,idusuarios):
 
 
 def BorrarUsuarios(request,idusuarios):
+    if not request.user.is_authenticated:
+        return redirect('/Login/login')
+    
     usuarios = Usuarios.objects.get(id=idusuarios)
     usuarios.delete()
     return redirect('/Usuarios/listado')
@@ -80,7 +89,6 @@ def BorrarUsuarios(request,idusuarios):
 #region Libros
 
 def ListadoLibros(request):
-
     paginalistado = open('Libreria/Templates/Libros/listado.html')
     lectura = Template(paginalistado.read())
     paginalistado.close()
@@ -92,6 +100,9 @@ def ListadoLibros(request):
 
 
 def InsertarLibros(request):
+    if not request.user.is_authenticated:
+        return redirect('/Login/login')
+    
     if request.method == "POST":
      if request.POST.get('nombrelibro') and request.POST.get('categoria') and request.POST.get('paginas') and request.POST.get('ilustrador') and request.POST.get('autor'):
 
@@ -111,6 +122,9 @@ def InsertarLibros(request):
 
 
 def ActualizarLibros(request,idlibros):
+    if not request.user.is_authenticated:
+        return redirect('/Login/login')
+    
     if request.method == "POST":
      if request.POST.get('nombrelibro') and request.POST.get('categoria') and request.POST.get('paginas') and request.POST.get('ilustrador') and request.POST.get('autor'):
 
@@ -130,6 +144,9 @@ def ActualizarLibros(request,idlibros):
 
 
 def BorrarLibros(request,idlibros):
+    if not request.user.is_authenticated:
+        return redirect('/Login/login')
+    
     libros = Libros.objects.get(id=idlibros)
     libros.delete()
     return redirect('/Libros/listado')
@@ -145,7 +162,7 @@ def Registro(request):
     if request.method == "POST":
      if request.POST.get('username') and request.POST.get('email') and request.POST.get('password'):
 
-        registro = User.objects.create_user(username=request.POST.get('username'),password=request.POST.get('email'),first_name=request.POST.get('password'))
+        registro = User.objects.create_user(username=request.POST.get('username'),email=request.POST.get('email'),password=request.POST.get('password'))
         registro.save()
 
         return redirect('/Login/login')
@@ -156,7 +173,7 @@ def Registro(request):
 def Login(request):
     if request.method == "POST":
         if request.POST.get('username') and request.POST.get('password'):
-           user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
+           user = authenticate(username=request.POST.get('username'),password=request.POST.get('password'))
 
         if user is not None:
              login(request,user)
@@ -167,6 +184,7 @@ def Login(request):
     
     else:
         return render(request,'Login/login.html')
+
 
 
 

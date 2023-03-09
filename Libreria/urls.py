@@ -42,7 +42,7 @@ urlpatterns = [
     path("Libros/borrar/<int:idlibros>", BorrarLibros),
 
     #Login
-    path("Login/login>", Login),
+    path("Login/login", Login),
     path("Login/registro", Registro),
 
 
