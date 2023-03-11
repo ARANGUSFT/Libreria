@@ -1,0 +1,17 @@
+
+
+
+<div class="login">
+	<h1>Editar Perfil</h1>
+
+    <form method="POST">
+      {% csrf_token %}
+    	  <input type="text" name="username" value="{{  }}"  placeholder="Apodo" required>
+        <input type="email" name="email" value="{{  }}" placeholder="Correo" required>
+        <input type="password" name="password" value="{{  }}" placeholder="Contraseña" required>
+		<center><a href="/Login/login">Ya tengo una cuenta</a></center><br>
+
+        <button type="submit" class="btn btn-primary btn-block btn-large">Registrarse</button>
+    </form>
+    
+</div>

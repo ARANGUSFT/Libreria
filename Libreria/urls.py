@@ -30,7 +30,7 @@ urlpatterns = [
     #Usuarios
     path("Usuarios/listado", ListadoUsuarios),
     path("Usuarios/insertar", InsertarUsuarios),
-    path("Usuarios/actualizar/<int:idusuarios>", ActualizarUsuarios),
+    path("Usuarios/actualizar/<str:idusuarios>", ActualizarUsuarios),
     path("Usuarios/borrar/<int:idusuarios>", BorrarUsuarios),
     #Libros
     path("Libros/listado", ListadoLibros),

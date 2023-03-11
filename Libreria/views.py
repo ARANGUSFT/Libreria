@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.template import Template, Context
 from django.shortcuts import render,redirect
+from django.db import connection
 from Libreria.models import Usuarios,Libros
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
@@ -9,70 +10,57 @@ from django.contrib.auth import authenticate,login,logout
 #region Usuarios
 
 def ListadoUsuarios(request):
-    paginalistado = open('Libreria/Templates/Usuarios/listado.html')
-    lectura = Template(paginalistado.read())
-    paginalistado.close()
-    usuarios = Usuarios.objects.all()
-    parametros = Context({'usuarios':usuarios})
-    paginafinal = lectura.render(parametros)
-    return HttpResponse(paginafinal)
+    listado = connection.cursor()
+    listado.execute("call ListadoUsuarios")
+    return render(request, 'Usuarios/listado.html', {'usuarios': listado})
+
+
 
 
 
 def InsertarUsuarios(request):
+    #Es necesario tener una cuenta
     if not request.user.is_authenticated:
         return redirect('/Login/login')
     
     if request.method == "POST":
      if request.POST.get('nombre') and request.POST.get('apellido') and request.POST.get('direccion') and request.POST.get('edad') and request.POST.get('telefono') and request.POST.get('cedula') and request.POST.get('correo') and request.POST.get('profesion') and request.POST.get('libro_id'):
 
-        usuarios = Usuarios()
-        usuarios.Nombre = request.POST.get('nombre')
-        usuarios.Apellido = request.POST.get('apellido')
-        usuarios.Direccion = request.POST.get('direccion')
-        usuarios.Edad = request.POST.get('edad')
-        usuarios.Telefono = request.POST.get('telefono')
-        usuarios.Cedula = request.POST.get('cedula')
-        usuarios.Correo = request.POST.get('correo')
-        usuarios.Profesion = request.POST.get('profesion')
-        usuarios.Libros = request.POST.get('libro_id')
-        usuarios.save()
+        insertar = connection.cursor()
+        insertar.execute("call InsertarUsuarios('"+request.POST.get ('nombre')+"','"+request.POST.get ('apellido')+"','"+request.POST.get ('direccion')+"','"+request.POST.get ('edad')+"','"+request.POST.get ('telefono')+"','"+request.POST.get ('cedula')+"','"+request.POST.get ('correo')+"','"+request.POST.get ('profesion')+"','"+request.POST.get ('libro_id')+"')")
 
         return redirect('/Usuarios/listado')
     else:
-        return render(request,'Usuarios/insertar.html')
+        libros = Libros.objects.all()
+        return render(request,'Usuarios/insertar.html',{'libros':libros})
     
 
-
+ 
 
 def ActualizarUsuarios(request,idusuarios):
+    #Es necesario tener una cuenta
     if not request.user.is_authenticated:
         return redirect('/Login/login')
        
     if request.method == "POST":
-     if request.POST.get('nombre') and request.POST.get('apellido') and request.POST.get('direccion') and request.POST.get('edad') and request.POST.get('telefono') and request.POST.get('cedula') and request.POST.get('correo') and request.POST.get('profesion') and request.POST.get('libro_id'):
-
-        usuarios = Usuarios.objects.get(id=idusuarios)
-        usuarios.Nombre = request.POST.get('nombre')
-        usuarios.Apellido = request.POST.get('apellido')
-        usuarios.Direccion = request.POST.get('direccion')
-        usuarios.Edad = request.POST.get('edad')
-        usuarios.Telefono = request.POST.get('telefono')
-        usuarios.Cedula = request.POST.get('cedula')
-        usuarios.Correo = request.POST.get('correo')
-        usuarios.Profesion = request.POST.get('profesion')
-        usuarios.Libros = request.POST.get('libro_id')
-        usuarios.save()
-
-        return redirect('/Usuarios/listado')
+       if request.POST.get('nombre') and request.POST.get('apellido') and request.POST.get('direccion') and request.POST.get('edad') and request.POST.get('telefono') and request.POST.get('cedula') and request.POST.get('correo') and request.POST.get('profesion') and request.POST.get('libro_id'):
+            
+            usuarios = Usuarios.objects.get(id=idusuarios)
+            actualizar = connection.cursor()
+            actualizar.execute("call ActualizarUsuarios('"+ idusuarios +"','"+ request.POST.get('nombre') +"','"+ request.POST.get('apellido') 
+            +"','"+ request.POST.get('direccion') +"','"+ request.POST.get('edad') +"','"+ request.POST.get('telefono') +"','"+ request.POST.get('cedula') +"','"+ request.POST.get('correo') +"','"+ request.POST.get('profesion') +"','"+ request.POST.get('libro_id') +"')")
+            return redirect('/Usuarios/listado')
     else:
+        libros = Libros.objects.all()
         usuarios = Usuarios.objects.filter(id=idusuarios)
-        return render(request,'Usuarios/actualizar.html',{'usuarios':usuarios})
+        return render(request, 'Usuarios/actualizar.html', {'usuarios':usuarios, 'libros':libros})
+
     
 
 
 
 def BorrarUsuarios(request,idusuarios):
+    #Es necesario tener una cuenta
     if not request.user.is_authenticated:
         return redirect('/Login/login')
     
@@ -100,6 +88,7 @@ def ListadoLibros(request):
 
 
 def InsertarLibros(request):
+    #Es necesario tener una cuenta
     if not request.user.is_authenticated:
         return redirect('/Login/login')
     
@@ -122,6 +111,7 @@ def InsertarLibros(request):
 
 
 def ActualizarLibros(request,idlibros):
+    #Es necesario tener una cuenta
     if not request.user.is_authenticated:
         return redirect('/Login/login')
     
@@ -144,6 +134,7 @@ def ActualizarLibros(request,idlibros):
 
 
 def BorrarLibros(request,idlibros):
+    #Es necesario tener una cuenta
     if not request.user.is_authenticated:
         return redirect('/Login/login')
     
@@ -152,6 +143,7 @@ def BorrarLibros(request,idlibros):
     return redirect('/Libros/listado')
 
 #endregion
+
 
 
 
@@ -191,5 +183,13 @@ def Login(request):
 def Logout(request):
     logout(request)
     return redirect('/Login/login')
+
+#endregion
+
+
+
+
+
+#region EditarPerfil
 
 #endregion
